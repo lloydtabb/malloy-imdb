@@ -6,6 +6,6 @@ query: works_together is movies -> works_with + {
   where: name ~ $NAME
   nest: by_title is {
     group_by: title
-    aggregate: total_ratings
+    aggregate: total_votes
   }
 }

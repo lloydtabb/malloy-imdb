@@ -71,8 +71,9 @@ source: movies is titles_table extend {
     # label="Title Count"
     title_count is count(tconst)
     row_count is count()
-    # format="#,###" label="Total Ratings"
-    total_ratings is sum(numVotes / 1000.0)
+    #" Sum of IMDB votes, in thousands (numVotes / 1000)
+    # format="#,###" label="Total Votes (K)"
+    total_votes is sum(numVotes / 1000.0)
     # label="Average Rating"
     average_rating is averageRating.avg()
     # percent label="Percent of Titles"
@@ -127,10 +128,10 @@ source: movies is titles_table extend {
     order_by: release_year desc
   }
 
-  #" People (cast and crew) by ratings and number of titles
+  #" People (cast and crew) by total votes and number of titles
   view: by_name is {
     group_by: principals.people.primaryName, principals.nconst
-    aggregate: total_ratings, title_count
+    aggregate: total_votes, title_count
   }
 
   #" Find people that worked together, filter on name (e.g. where: name = 'Tom Hanks')
@@ -146,32 +147,32 @@ source: movies is titles_table extend {
     limit: 10
   }
 
-  #" Genres by title count and ratings
+  #" Genres by title count and total votes
   view: by_genre is {
     group_by: genre is genres.value
-    aggregate: title_count, total_ratings, percent_of_titles
+    aggregate: title_count, total_votes, percent_of_titles
   }
 
-  #" Top directors by total ratings
+  #" Top directors by total votes
   view: top_directors is {
     limit: 100
     where: job = 'director'
     group_by: 
       name 
       principals.nconst
-    aggregate: total_ratings
+    aggregate: total_votes
   }
 
-  #" Top actors and actresses by total ratings
+  #" Top actors and actresses by total votes
   view: top_actors is {
     limit: 100
     where: job = 'actor' | 'actress'
     group_by: name, principals.nconst
-    aggregate: total_ratings
+    aggregate: total_votes
   }
 }
 
 query: name_options is movies -> {
   group_by: name 
-  aggregate: total_ratings
+  aggregate: total_votes
 }

@@ -14,7 +14,7 @@ import "../imdb.malloy"
     # colspan=3
     group_by: `Genre Combination` is concat(genre,'/', genre2)
     # hidden
-    aggregate: total_ratings
+    aggregate: total_votes
     # colspan=3
     //# list
     nest: `Top Titles Overall` is {
@@ -23,7 +23,7 @@ import "../imdb.malloy"
         # label='Year' number="####"
         release_year
       # hidden
-      aggregate: total_ratings
+      aggregate: total_votes
       limit: 10
     }
 
@@ -39,7 +39,7 @@ import "../imdb.malloy"
       # tooltip
       nest: titles is {
         group_by: title
-        aggregate: total_ratings
+        aggregate: total_votes
         limit: 5
       }
     }
